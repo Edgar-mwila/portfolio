@@ -59,13 +59,13 @@ export const PortfolioWebsite = () => {
 // Handle printing CV
 const handlePrintCV = () => {
     // Create link to CV file
-    const cvPath = '/CV.pdf' // Update this path to match where your CV is stored in public folder
+    const cvPath = '/CV.pdf' 
     
     try {
         // Create temporary link element
         const link = document.createElement('a')
         link.href = cvPath
-        link.download = 'Edgar-Mwila-CV.pdf' // Name of downloaded file
+        link.download = 'Edgar-Mwila-CV.pdf'
         document.body.appendChild(link)
         
         // Trigger download
