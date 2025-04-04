@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Download, Github, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react"
+import { Download, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { cn } from "../lib/utils"
 
 // Main App Component
 export const PortfolioWebsite = () => {
   const [activeSection, setActiveSection] = useState("home")
   const [isDarkMode, setIsDarkMode] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Check system preference for dark mode
   useEffect(() => {
@@ -58,7 +59,7 @@ export const PortfolioWebsite = () => {
 // Handle printing CV
 const handlePrintCV = () => {
     // Create link to CV file
-    const cvPath = '/assets/CV.pdf' // Update this path to match where your CV is stored in public folder
+    const cvPath = '/CV.pdf' // Update this path to match where your CV is stored in public folder
     
     try {
         // Create temporary link element
@@ -80,7 +81,7 @@ const handlePrintCV = () => {
 
   return (
     <div
-      className={cn("portfolio-app min-h-screen transition-all duration-300", isDarkMode ? "dark" : "")}
+      className={cn("transition-all duration-300", isDarkMode ? "dark" : "")}
       style={{
         backgroundColor: theme.background,
         color: theme.text,
@@ -107,6 +108,7 @@ const handlePrintCV = () => {
             padding: "0 1rem",
           }}
         >
+          {/* Logo/Name */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -116,96 +118,230 @@ const handlePrintCV = () => {
             Edgar Mwila
           </motion.div>
 
-          {/* Navigation Links - Hidden on mobile */}
-          <div className="hidden md:flex gap-4">
-            {navLinks.map((link) => (
-              <motion.button
-                key={link.id}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection(link.id)}
-                style={{
-                  backgroundColor: "transparent",
-                  border: "none",
-                  color: activeSection === link.id ? "white" : "rgba(255,255,255,0.7)",
-                  padding: "0.5rem",
-                  cursor: "pointer",
-                  fontWeight: activeSection === link.id ? "bold" : "normal",
-                  position: "relative",
-                }}
-              >
-                {link.label}
-                {activeSection === link.id && (
-                  <motion.div
-                    layoutId="activeIndicator"
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      backgroundColor: "white",
-                    }}
-                  />
-                )}
-              </motion.button>
-            ))}
-
-            {/* CV Download Button */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handlePrintCV}
-              style={{
-                backgroundColor: theme.light,
-                color: "#240046",
-                border: "none",
-                borderRadius: "5px",
-                padding: "0.5rem 1rem",
-                cursor: "pointer",
-                fontWeight: "bold",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
+          {/* Desktop Navigation */}
+          <div 
+            className="hidden md:flex items-center gap-6" 
+            style={{ 
+              display: "none", 
+              alignItems: "center", 
+              gap: "1.5rem",
+            }}
+          >
+            {/* Navigation Links */}
+            <div 
+              style={{ 
+                display: "flex", 
+                gap: "1.5rem" 
               }}
             >
-              <Download size={16} />
-              Download CV
-            </motion.button>
+              {navLinks.map((link) => (
+                <motion.button
+                  key={link.id}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToSection(link.id)}
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                    color: activeSection === link.id ? "white" : "rgba(255,255,255,0.7)",
+                    padding: "0.5rem",
+                    cursor: "pointer",
+                    fontWeight: activeSection === link.id ? "bold" : "normal",
+                    position: "relative",
+                  }}
+                >
+                  {link.label}
+                  {activeSection === link.id && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "2px",
+                        backgroundColor: "white",
+                      }}
+                    />
+                  )}
+                </motion.button>
+              ))}
+            </div>
 
-            {/* Dark Mode Toggle */}
+            {/* Action Buttons Container */}
+            <div 
+              style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "0.75rem" 
+              }}
+            >
+              {/* CV Download Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handlePrintCV}
+                style={{
+                  backgroundColor: theme.light,
+                  color: "#240046",
+                  border: "none",
+                  borderRadius: "5px",
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  fontSize: "0.875rem",
+                }}
+              >
+                <Download size={16} />
+                Download CV
+              </motion.button>
+
+              {/* Dark Mode Toggle */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleDarkMode}
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.15)",
+                  border: "none",
+                  color: "white",
+                  padding: "0.5rem",
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  width: "36px",
+                  height: "36px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {isDarkMode ? "☀️" : "🌙"}
+              </motion.button>
+            </div>
+          </div>
+
+          {/* Mobile Menu Button - Only visible on mobile */}
+          <div 
+            style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "0.75rem" 
+            }}
+            className="md:hidden"
+          >
+            {/* Mobile Dark Mode Toggle - Compact version */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleDarkMode}
               style={{
-                backgroundColor: "transparent",
+                backgroundColor: "rgba(255,255,255,0.15)",
                 border: "none",
                 color: "white",
                 padding: "0.5rem",
                 cursor: "pointer",
+                borderRadius: "50%",
+                width: "32px",
+                height: "32px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               {isDarkMode ? "☀️" : "🌙"}
             </motion.button>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => alert("Mobile menu would open here")}
+            {/* Mobile Navigation Hamburger Menu */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               style={{
-                backgroundColor: "transparent",
+                backgroundColor: "rgba(255,255,255,0.15)",
                 border: "none",
                 color: "white",
-                padding: "0.5rem",
+                borderRadius: "5px",
+                width: "40px",
+                height: "40px",
                 cursor: "pointer",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               ☰
-            </button>
+            </motion.button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu - Conditionally rendered */}
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              backgroundColor: theme.primary,
+              borderTop: "1px solid rgba(255,255,255,0.1)",
+              marginTop: "1rem",
+              padding: "1rem",
+            }}
+            className="md:hidden"
+          >
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {/* Mobile Nav Links */}
+              {navLinks.map((link) => (
+                <motion.button
+                  key={link.id}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    scrollToSection(link.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  style={{
+                    backgroundColor: activeSection === link.id ? "rgba(255,255,255,0.1)" : "transparent",
+                    border: "none",
+                    color: "white",
+                    padding: "0.75rem",
+                    cursor: "pointer",
+                    fontWeight: activeSection === link.id ? "bold" : "normal",
+                    borderRadius: "5px",
+                    textAlign: "left",
+                  }}
+                >
+                  {link.label}
+                </motion.button>
+              ))}
+              
+              {/* Download CV Button for Mobile */}
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handlePrintCV}
+                style={{
+                  backgroundColor: theme.light,
+                  color: "#240046",
+                  border: "none",
+                  borderRadius: "5px",
+                  padding: "0.75rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                <Download size={18} />
+                Download CV
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
       </nav>
 
       {/* Main Content */}
@@ -294,137 +430,140 @@ const handlePrintCV = () => {
 
         {/* About Section */}
         <motion.section
-          id="about"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, margin: "-100px" }}
+      id="about"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true, margin: "-100px" }}
+      style={{
+        minHeight: "80vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        marginBottom: "2rem",
+      }}
+    >
+      <h2
+        style={{
+          fontSize: "2.5rem",
+          marginBottom: "2rem",
+          color: theme.primary,
+          position: "relative",
+          paddingBottom: "0.5rem",
+        }}
+      >
+        About Me
+        <span
           style={{
-            minHeight: "80vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            marginBottom: "2rem",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100px",
+            height: "3px",
+            backgroundColor: theme.secondary,
           }}
-        >
-          <h2
+        />
+      </h2>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "2rem",
+          alignItems: "center",
+        }}
+      >
+        {/* Text content spanning 2 columns */}
+        <div style={{ gridColumn: "span 2" }}>
+          <p
             style={{
-              fontSize: "2.5rem",
-              marginBottom: "2rem",
-              color: theme.primary,
-              position: "relative",
-              paddingBottom: "0.5rem",
+              fontSize: "1.1rem",
+              marginBottom: "1.5rem",
+              lineHeight: "1.8",
             }}
           >
-            About Me
-            <span
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                width: "100px",
-                height: "3px",
-                backgroundColor: theme.secondary,
-              }}
-            />
-          </h2>
+            I am a self-motivated and eager-spirited individual who is always pushing myself towards better. I love
+            to learn and share knowledge, making me a valuable asset to any team.
+          </p>
+          <p
+            style={{
+              fontSize: "1.1rem",
+              marginBottom: "1.5rem",
+              lineHeight: "1.8",
+            }}
+          >
+            As a resourceful student skilled in programming, debugging, and software development, I offer a dynamic
+            personality and a willingness to learn. My presence has been described as pleasant and positive by the
+            majority of people I have interacted with.
+          </p>
+          <p
+            style={{
+              fontSize: "1.1rem",
+              marginBottom: "1.5rem",
+              lineHeight: "1.8",
+            }}
+          >
+            My morals are as unquestionable as my caliber. My character as sound as can be. I would be a great asset
+            for any software firm looking for a dedicated and skilled developer.
+          </p>
 
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "2rem",
-              alignItems: "center",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "1rem",
+              marginTop: "2rem",
             }}
           >
             <div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                style={{
-                  width: "100%",
-                  borderRadius: "10px",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                  overflow: "hidden",
-                }}
-              >
-                <img
-                  src="/placeholder.svg?height=400&width=400"
-                  alt="Edgar Mwila"
-                  width={400}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                />
-              </motion.div>
+              <p>
+                <strong>Name:</strong> Edgar Mwila
+              </p>
+              <p>
+                <strong>Experience:</strong> 3+ Years
+              </p>
+              <p>
+                <strong>Location:</strong> Kafue, Zambia
+              </p>
             </div>
             <div>
-              <p
-                style={{
-                  fontSize: "1.1rem",
-                  marginBottom: "1.5rem",
-                  lineHeight: "1.8",
-                }}
-              >
-                I am a self-motivated and eager-spirited individual who is always pushing myself towards better. I love
-                to learn and share knowledge, making me a valuable asset to any team.
+              <p>
+                <strong>Email:</strong> edgarmwila84@gmail.com
               </p>
-              <p
-                style={{
-                  fontSize: "1.1rem",
-                  marginBottom: "1.5rem",
-                  lineHeight: "1.8",
-                }}
-              >
-                As a resourceful student skilled in programming, debugging, and software development, I offer a dynamic
-                personality and a willingness to learn. My presence has been described as pleasant and positive by the
-                majority of people I have interacted with.
+              <p>
+                <strong>Phone:</strong> +260 779846020
               </p>
-              <p
-                style={{
-                  fontSize: "1.1rem",
-                  marginBottom: "1.5rem",
-                  lineHeight: "1.8",
-                }}
-              >
-                My morals are as unquestionable as my caliber. My character as sound as can be. I would be a great asset
-                for any software firm looking for a dedicated and skilled developer.
+              <p>
+                <strong>Freelance:</strong> Available
               </p>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "1rem",
-                  marginTop: "2rem",
-                }}
-              >
-                <div>
-                  <p>
-                    <strong>Name:</strong> Edgar Mwila
-                  </p>
-                  <p>
-                    <strong>Experience:</strong> 2+ Years
-                  </p>
-                  <p>
-                    <strong>Location:</strong> Kafue, Zambia
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <strong>Email:</strong> edgarmwila84@gmail.com
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> +260 779846020
-                  </p>
-                  <p>
-                    <strong>Freelance:</strong> Available
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
-        </motion.section>
+        </div>
+
+        {/* Image in the third column */}
+        <div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src="/professional.jpg"
+              alt="Edgar Mwila"
+              width={400}
+              height={800}
+              className="w-full h-auto object-cover"
+            />
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
 
         {/* Experience Section */}
         <motion.section
@@ -619,7 +758,7 @@ const handlePrintCV = () => {
             </motion.div>
           </div>
         </motion.section>
-
+ 
         {/* Projects Section */}
         <motion.section
           id="projects"
@@ -664,7 +803,7 @@ const handlePrintCV = () => {
               gap: "2rem",
             }}
           >
-            {/* Project Card 1 */}
+            {/* Project Card 1 - CBU Premier League Website */}
             <motion.div
               whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
               initial={{ opacity: 0, y: 20 }}
@@ -679,13 +818,35 @@ const handlePrintCV = () => {
               }}
             >
               <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <img
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="E-commerce Platform"
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
+                <motion.div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {["/assets/cbu-premier-league/1.jpg", "/assets/cbu-premier-league/2.jpg", "/assets/cbu-premier-league/3.jpg"].map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`CBU Premier League ${index + 1}`}
+                      style={{
+                        flexShrink: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ))}
+                </motion.div>
                 <div
                   style={{
                     position: "absolute",
@@ -699,7 +860,6 @@ const handlePrintCV = () => {
                     alignItems: "center",
                     opacity: 0,
                     transition: "opacity 0.3s ease",
-                    // "&:hover": { opacity: 1 },
                   }}
                 >
                   <button
@@ -717,18 +877,18 @@ const handlePrintCV = () => {
                 </div>
               </div>
               <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>E-commerce Platform</h3>
+                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>CBU Premier League Website</h3>
                 <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  React.js / Node.js / PostgreSQL
+                  React.js / Node.js / MongoDB
                 </p>
                 <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A full-stack e-commerce platform with user authentication, product catalog, shopping cart, and payment
-                  integration. Implemented responsive design and optimized for performance.
+                  A comprehensive sports league management website for Copperbelt University's Premier League with fixtures, results, 
+                  team statistics, and player profiles. Features real-time updates and responsive design.
                 </p>
               </div>
             </motion.div>
 
-            {/* Project Card 2 */}
+            {/* Project Card 2 - Expense Tracker */}
             <motion.div
               whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
               initial={{ opacity: 0, y: 20 }}
@@ -743,13 +903,35 @@ const handlePrintCV = () => {
               }}
             >
               <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <img
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Real-time Chat Application"
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
+                <motion.div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {["/assets/expense-tracker/1.jpg", "/assets/expense-tracker/2.jpg", "/assets/expense-tracker/3.jpg"].map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`Expense Tracker ${index + 1}`}
+                      style={{
+                        flexShrink: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ))}
+                </motion.div>
                 <div
                   style={{
                     position: "absolute",
@@ -763,7 +945,6 @@ const handlePrintCV = () => {
                     alignItems: "center",
                     opacity: 0,
                     transition: "opacity 0.3s ease",
-                    // ":hover": { opacity: 1 },
                   }}
                 >
                   <button
@@ -781,18 +962,18 @@ const handlePrintCV = () => {
                 </div>
               </div>
               <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Real-time Chat Application</h3>
+                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Expense Tracker</h3>
                 <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  Next.js / WebSockets / Firebase
+                  React.js / Firebase / Chart.js
                 </p>
                 <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A real-time chat application with features like user authentication, private messaging, group chats,
-                  and message notifications. Implemented using WebSockets for real-time communication.
+                  A personal finance application that helps users track expenses, set budgets, and visualize spending patterns 
+                  through interactive charts. Features include expense categorization and monthly reports.
                 </p>
               </div>
             </motion.div>
 
-            {/* Project Card 3 */}
+            {/* Project Card 3 - Data Structures and Algorithms */}
             <motion.div
               whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
               initial={{ opacity: 0, y: 20 }}
@@ -807,13 +988,35 @@ const handlePrintCV = () => {
               }}
             >
               <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <img
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Task Management System"
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
+                <motion.div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {["/assets/dsa/1.jpg", "/assets/dsa/2.jpg", "/assets/dsa/3.jpg"].map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`DSA Learning ${index + 1}`}
+                      style={{
+                        flexShrink: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ))}
+                </motion.div>
                 <div
                   style={{
                     position: "absolute",
@@ -844,13 +1047,269 @@ const handlePrintCV = () => {
                 </div>
               </div>
               <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Task Management System</h3>
+                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Learning Data Structures and Algorithms</h3>
                 <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  React.js / Node.js / MongoDB
+                  JavaScript / C++ / Python
                 </p>
                 <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A comprehensive task management system with features like task creation, assignment, tracking, and
-                  reporting. Implemented with a responsive design for mobile and desktop use.
+                  A collection of implemented data structures and algorithms with explanations and visualizations. 
+                  Includes sorting algorithms, search techniques, and complex data structures with practical applications.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Project Card 4 - Habit Hub */}
+            <motion.div
+              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              style={{
+                backgroundColor: theme.card,
+                borderRadius: "10px",
+                overflow: "hidden",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+              }}
+            >
+              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
+                <motion.div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {["/assets/habit-hub/1.jpg", "/assets/habit-hub/2.jpg", "/assets/habit-hub/3.jpg"].map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`Habit Hub ${index + 1}`}
+                      style={{
+                        flexShrink: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ))}
+                </motion.div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(0,0,0,0.3)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: theme.primary,
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      padding: "0.5rem 1rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    View Project
+                  </button>
+                </div>
+              </div>
+              <div style={{ padding: "1.5rem" }}>
+                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Habit Hub</h3>
+                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
+                  Android / Kotlin / Room Database
+                </p>
+                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
+                  An Android application designed to help users track and maintain healthy habits. Features include 
+                  goal setting, streak tracking, reminders, and progress visualization to motivate consistent behavior.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Project Card 5 - My Rent Solutions */}
+            <motion.div
+              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
+              style={{
+                backgroundColor: theme.card,
+                borderRadius: "10px",
+                overflow: "hidden",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+              }}
+            >
+              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
+                <motion.div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {["/assets/rent-solutions/1.jpg", "/assets/rent-solutions/2.jpg", "/assets/rent-solutions/3.jpg"].map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`My Rent Solutions ${index + 1}`}
+                      style={{
+                        flexShrink: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ))}
+                </motion.div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(0,0,0,0.3)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: theme.primary,
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      padding: "0.5rem 1rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    View Project
+                  </button>
+                </div>
+              </div>
+              <div style={{ padding: "1.5rem" }}>
+                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>My Rent Solutions</h3>
+                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
+                  Next.js / Express / PostgreSQL
+                </p>
+                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
+                  A comprehensive rental property management platform connecting landlords and tenants. Features include 
+                  property listings, tenant application processing, rent payment tracking, and maintenance request management.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Project Card 6 - Image Classifier */}
+            <motion.div
+              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              viewport={{ once: true }}
+              style={{
+                backgroundColor: theme.card,
+                borderRadius: "10px",
+                overflow: "hidden",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+              }}
+            >
+              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
+                <motion.div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {["/assets/image-classifier/1.jpg", "/assets/image-classifier/2.jpg", "/assets/image-classifier/3.jpg"].map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`Image Classifier ${index + 1}`}
+                      style={{
+                        flexShrink: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ))}
+                </motion.div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(0,0,0,0.3)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: theme.primary,
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      padding: "0.5rem 1rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    View Project
+                  </button>
+                </div>
+              </div>
+              <div style={{ padding: "1.5rem" }}>
+                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Image Classifier</h3>
+                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
+                  Python / TensorFlow / Keras
+                </p>
+                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
+                  A machine learning application that classifies images into predefined categories using 
+                  convolutional neural networks. Trained on a diverse dataset to recognize various objects and scenes 
+                  with high accuracy.
                 </p>
               </div>
             </motion.div>
@@ -1463,7 +1922,7 @@ const handlePrintCV = () => {
               <div style={{ display: "flex", gap: "1rem" }}>
                 {/* Social Icons */}
                 <motion.a
-                  href="https://linkedin.com"
+                  href="www.linkedin.com/in/edgar-mwila-linkdin"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -5, scale: 1.1 }}
@@ -1487,7 +1946,7 @@ const handlePrintCV = () => {
                   <Linkedin size={20} />
                 </motion.a>
                 <motion.a
-                  href="https://github.com"
+                  href="https://github.com/Edgar-mwila"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -5, scale: 1.1 }}
@@ -1509,30 +1968,6 @@ const handlePrintCV = () => {
                   }}
                 >
                   <Github size={20} />
-                </motion.a>
-                <motion.a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ y: -5, scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  style={{
-                    backgroundColor: theme.primary,
-                    borderRadius: "50%",
-                    width: "40px",
-                    height: "40px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: "white",
-                    textDecoration: "none",
-                  }}
-                >
-                  <Twitter size={20} />
                 </motion.a>
               </div>
             </div>
