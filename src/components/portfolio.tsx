@@ -833,9 +833,9 @@ const handlePrintCV = () => {
                     ease: "linear",
                   }}
                 >
-                  {["/assets/cbu-premier-league/1.jpg", "/assets/cbu-premier-league/2.jpg", "/assets/cbu-premier-league/3.jpg"].map((src, index) => (
+                  {["/cpl/1.png", "/cpl/2.png", "/cpl/3.png", "/cpl/4.png", "/cpl/5.png", "/cpl/6.png"].map((src, index) => (
                     <img
-                      key={index}
+                      key={index + 1}
                       src={src}
                       alt={`CBU Premier League ${index + 1}`}
                       style={{
@@ -918,9 +918,9 @@ const handlePrintCV = () => {
                     ease: "linear",
                   }}
                 >
-                  {["/assets/expense-tracker/1.jpg", "/assets/expense-tracker/2.jpg", "/assets/expense-tracker/3.jpg"].map((src, index) => (
+                  {["/expense-tracker/1.png", "/expense-tracker/2.png", "/expense-tracker/3.png", "/expense-tracker/4.png", "/expense-tracker/5.png"].map((src, index) => (
                     <img
-                      key={index}
+                      key={index + 1}
                       src={src}
                       alt={`Expense Tracker ${index + 1}`}
                       style={{
@@ -1003,7 +1003,7 @@ const handlePrintCV = () => {
                     ease: "linear",
                   }}
                 >
-                  {["/assets/dsa/1.jpg", "/assets/dsa/2.jpg", "/assets/dsa/3.jpg"].map((src, index) => (
+                  {["/learning-dsa/1.png", "/learning-dsa/2.png", "/learning-dsa/3.png", "/learning-dsa/4.png", "/learning-dsa/5.png", "/learning-dsa/6.png", "/learning-dsa/7.png"].map((src, index) => (
                     <img
                       key={index}
                       src={src}
@@ -1088,7 +1088,7 @@ const handlePrintCV = () => {
                     ease: "linear",
                   }}
                 >
-                  {["/assets/habit-hub/1.jpg", "/assets/habit-hub/2.jpg", "/assets/habit-hub/3.jpg"].map((src, index) => (
+                  {["/habit-hub/1.jpg", "/habit-hub/2.jpg", "/habit-hub/3.jpg", "/habit-hub/4.jpg", "/habit-hub/5.jpg", "/habit-hub/6.jpg", "/habit-hub/7.jpg"].map((src, index) => (
                     <img
                       key={index}
                       src={src}
@@ -1173,9 +1173,9 @@ const handlePrintCV = () => {
                     ease: "linear",
                   }}
                 >
-                  {["/assets/rent-solutions/1.jpg", "/assets/rent-solutions/2.jpg", "/assets/rent-solutions/3.jpg"].map((src, index) => (
+                  {["/my-rent-solutions/1.png", "/my-rent-solutions/2.png"].map((src, index) => (
                     <img
-                      key={index}
+                      key={index + 1}
                       src={src}
                       alt={`My Rent Solutions ${index + 1}`}
                       style={{
@@ -1260,9 +1260,9 @@ const handlePrintCV = () => {
                 >
                   {["/assets/image-classifier/1.jpg", "/assets/image-classifier/2.jpg", "/assets/image-classifier/3.jpg"].map((src, index) => (
                     <img
-                      key={index}
+                      key={index + 1}
                       src={src}
-                      alt={`Image Classifier ${index + 1}`}
+                      alt={`Classifier ${index + 1}`}
                       style={{
                         flexShrink: 0,
                         width: "100%",
