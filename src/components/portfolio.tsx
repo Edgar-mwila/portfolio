@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useRef, useCallback } from "react"
+import { AnimatePresence, motion } from "framer-motion"
 import { Download, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { cn } from "../lib/utils"
 
@@ -8,7 +8,7 @@ export const PortfolioWebsite = () => {
   const [activeSection, setActiveSection] = useState("home")
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  
   // Check system preference for dark mode
   useEffect(() => {
     const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)")
@@ -316,7 +316,7 @@ const handlePrintCV = () => {
                   {link.label}
                 </motion.button>
               ))}
-              
+
               {/* Download CV Button for Mobile */}
               <motion.button
                 whileTap={{ scale: 0.95 }}
@@ -430,140 +430,65 @@ const handlePrintCV = () => {
 
         {/* About Section */}
         <motion.section
-      id="about"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true, margin: "-100px" }}
-      style={{
-        minHeight: "80vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        marginBottom: "2rem",
-      }}
-    >
-      <h2
-        style={{
-          fontSize: "2.5rem",
-          marginBottom: "2rem",
-          color: theme.primary,
-          position: "relative",
-          paddingBottom: "0.5rem",
-        }}
-      >
-        About Me
-        <span
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: "100px",
-            height: "3px",
-            backgroundColor: theme.secondary,
-          }}
-        />
-      </h2>
+          id="about"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="py-16 px-4 md:px-8 flex flex-col justify-center min-h-screen"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 relative pb-3 text-primary">
+            About Me
+            <span className="absolute bottom-0 left-0 w-24 h-1 bg-secondary" />
+          </h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "2rem",
-          alignItems: "center",
-        }}
-      >
-        {/* Text content spanning 2 columns */}
-        <div style={{ gridColumn: "span 2" }}>
-          <p
-            style={{
-              fontSize: "1.1rem",
-              marginBottom: "1.5rem",
-              lineHeight: "1.8",
-            }}
-          >
-            I am a self-motivated and eager-spirited individual who is always pushing myself towards better. I love
-            to learn and share knowledge, making me a valuable asset to any team.
-          </p>
-          <p
-            style={{
-              fontSize: "1.1rem",
-              marginBottom: "1.5rem",
-              lineHeight: "1.8",
-            }}
-          >
-            As a resourceful student skilled in programming, debugging, and software development, I offer a dynamic
-            personality and a willingness to learn. My presence has been described as pleasant and positive by the
-            majority of people I have interacted with.
-          </p>
-          <p
-            style={{
-              fontSize: "1.1rem",
-              marginBottom: "1.5rem",
-              lineHeight: "1.8",
-            }}
-          >
-            My morals are as unquestionable as my caliber. My character as sound as can be. I would be a great asset
-            for any software firm looking for a dedicated and skilled developer.
-          </p>
+          <div className="items-center">
+            {/* Text content */}
+            <div className="space-y-4">
+              <p className="text-base md:text-lg leading-relaxed">
+                I am a self-motivated and eager-spirited individual who is always pushing myself towards better. I love
+                to learn and share knowledge, making me a valuable asset to any team.
+              </p>
+              <p className="text-base md:text-lg leading-relaxed">
+                As a resourceful student skilled in programming, debugging, and software development, I offer a dynamic
+                personality and a willingness to learn. My presence has been described as pleasant and positive by the
+                majority of people I have interacted with.
+              </p>
+              <p className="text-base md:text-lg leading-relaxed">
+                My morals are as unquestionable as my caliber. My character as sound as can be. I would be a great asset
+                for any software firm looking for a dedicated and skilled developer.
+              </p>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1rem",
-              marginTop: "2rem",
-            }}
-          >
-            <div>
-              <p>
-                <strong>Name:</strong> Edgar Mwila
-              </p>
-              <p>
-                <strong>Experience:</strong> 3+ Years
-              </p>
-              <p>
-                <strong>Location:</strong> Kafue, Zambia
-              </p>
-            </div>
-            <div>
-              <p>
-                <strong>Email:</strong> edgarmwila84@gmail.com
-              </p>
-              <p>
-                <strong>Phone:</strong> +260 779846020
-              </p>
-              <p>
-                <strong>Freelance:</strong> Available
-              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <div className="space-y-2">
+                  <p className="flex flex-wrap items-center">
+                    <span className="font-semibold min-w-24">Name:</span> Edgar Mwila
+                  </p>
+                  <p className="flex flex-wrap items-center">
+                    <span className="font-semibold min-w-24">Experience:</span> 3+ Years
+                  </p>
+                  <p className="flex flex-wrap items-center">
+                    <span className="font-semibold min-w-24">Location:</span> Kafue, Zambia
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="flex flex-wrap items-center">
+                    <span className="font-semibold min-w-24">Email:</span> 
+                    <a href="mailto:edgarmwila84@gmail.com" className="text-primary hover:underline">edgarmwila84@gmail.com</a>
+                  </p>
+                  <p className="flex flex-wrap items-center">
+                    <span className="font-semibold min-w-24">Phone:</span> 
+                    <a href="tel:+260779846020" className="hover:underline">+260 779846020</a>
+                  </p>
+                  <p className="flex flex-wrap items-center">
+                    <span className="font-semibold min-w-24">Freelance:</span> 
+                    <span className="text-green-500">Available</span>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Image in the third column */}
-        <div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-              overflow: "hidden",
-            }}
-          >
-            <img
-              src="/professional.jpg"
-              alt="Edgar Mwila"
-              width={400}
-              height={800}
-              className="w-full h-auto object-cover"
-            />
-          </motion.div>
-        </div>
-      </div>
-    </motion.section>
+        </motion.section>
 
         {/* Experience Section */}
         <motion.section
@@ -761,559 +686,168 @@ const handlePrintCV = () => {
  
         {/* Projects Section */}
         <motion.section
-          id="projects"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, margin: "-100px" }}
-          style={{
-            minHeight: "80vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            marginBottom: "2rem",
-          }}
+        id="projects"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="min-h-screen flex flex-col justify-center mb-16"
         >
-          <h2
-            style={{
-              fontSize: "2.5rem",
-              marginBottom: "2rem",
-              color: theme.primary,
-              position: "relative",
-              paddingBottom: "0.5rem",
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 relative pb-3" style={{ color: theme.primary }}>
+          Featured Projects
+          <span className="absolute bottom-0 left-0 w-24 h-1" style={{ backgroundColor: theme.secondary }} />
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Project Card 1 - CBU Premier League Website */}
+          <ProjectCard
+            title="CBU Premier League Website"
+            tech={["React.js", "Node.js", "MongoDB", "Express.js", "Socket.io"]}
+            description="A comprehensive sports league management system developed for Copperbelt University's Premier League, featuring real-time match updates and detailed statistics."
+            longDescription="This challenging project required implementing real-time updates for live matches using Socket.io, handling complex statistics calculations, and managing a large dataset of players and teams. I overcame performance issues by implementing efficient database indexing and data caching strategies. The authentication system uses JWT tokens with role-based access control for administrators, team managers, and regular users. The biggest challenge was ensuring data consistency across real-time updates, which I solved using optimistic UI updates and proper error handling."
+            images={[
+              { src: "/cpl/1.png", alt: "League standings", caption: "Real-time league standings with detailed statistics" },
+              { src: "/cpl/2.png", alt: "Match details", caption: "Live match updates with player statistics" },
+              { src: "/cpl/3.png", alt: "Team management", caption: "Comprehensive team management interface" },
+              { src: "/cpl/4.png", alt: "Player profiles", caption: "Detailed player statistics and performance metrics" },
+              { src: "/cpl/5.png", alt: "Match scheduler", caption: "Interactive fixture scheduling interface" },
+              { src: "/cpl/6.png", alt: "Admin dashboard", caption: "Administrator control panel for league management" }
+            ]}
+            projectUrl="https://cbu-premier-league.com"
+            githubUrl="https://github.com/Edgar-mwila/cbu-premier-league"
+            theme={{
+              card: theme.card,
+              primary: theme.primary,
+              secondary: theme.secondary,
+              text: theme.text,
+              accent: theme.primary
             }}
-          >
-            Featured Projects
-            <span
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                width: "100px",
-                height: "3px",
-                backgroundColor: theme.secondary,
-              }}
-            />
-          </h2>
+          />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-              gap: "2rem",
+          {/* Project Card 2 - Expense Tracker */}
+          <ProjectCard
+            title="Expense Tracker"
+            tech={["React.js", "Firebase", "Chart.js", "Material-UI", "TypeScript"]}
+            description="A sophisticated personal finance application with real-time synchronization and advanced visualization features for expense tracking and budget management."
+            longDescription="One of the main challenges was implementing complex data visualization while maintaining optimal performance. I utilized React's useMemo and useCallback hooks for performance optimization, implemented lazy loading for charts, and designed a robust offline-first architecture using IndexedDB for local storage. The app handles currency conversions in real-time and provides AI-powered insights for spending patterns. Security was a key focus, implementing end-to-end encryption for sensitive financial data and multi-factor authentication."
+            images={[
+              { src: "/expense-tracker/1.png", alt: "Dashboard overview", caption: "Interactive dashboard with expense summary" },
+              { src: "/expense-tracker/2.png", alt: "Budget tracking", caption: "Dynamic budget tracking with alerts" },
+              { src: "/expense-tracker/3.png", alt: "Expense analysis", caption: "Detailed expense analysis with AI insights" },
+              { src: "/expense-tracker/4.png", alt: "Category management", caption: "Custom expense category management" },
+              { src: "/expense-tracker/5.png", alt: "Financial reports", caption: "Comprehensive monthly financial reports" }
+            ]}
+            projectUrl="https://expense-tracker-demo.com"
+            githubUrl="https://github.com/Edgar-mwila/expense-tracker"
+            theme={{
+              card: theme.card,
+              primary: theme.primary,
+              secondary: theme.secondary,
+              text: theme.text,
+              accent: theme.primary
             }}
-          >
-            {/* Project Card 1 - CBU Premier League Website */}
-            <motion.div
-              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              style={{
-                backgroundColor: theme.card,
-                borderRadius: "10px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <motion.div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  {["/cpl/1.png", "/cpl/2.png", "/cpl/3.png", "/cpl/4.png", "/cpl/5.png", "/cpl/6.png"].map((src, index) => (
-                    <img
-                      key={index + 1}
-                      src={src}
-                      alt={`CBU Premier League ${index + 1}`}
-                      style={{
-                        flexShrink: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <button
-                    style={{
-                      backgroundColor: theme.primary,
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Project
-                  </button>
-                </div>
-              </div>
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>CBU Premier League Website</h3>
-                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  React.js / Node.js / MongoDB
-                </p>
-                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A comprehensive sports league management website for Copperbelt University's Premier League with fixtures, results, 
-                  team statistics, and player profiles. Features real-time updates and responsive design.
-                </p>
-              </div>
-            </motion.div>
+          />
 
-            {/* Project Card 2 - Expense Tracker */}
-            <motion.div
-              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              style={{
-                backgroundColor: theme.card,
-                borderRadius: "10px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <motion.div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  {["/expense-tracker/1.png", "/expense-tracker/2.png", "/expense-tracker/3.png", "/expense-tracker/4.png", "/expense-tracker/5.png"].map((src, index) => (
-                    <img
-                      key={index + 1}
-                      src={src}
-                      alt={`Expense Tracker ${index + 1}`}
-                      style={{
-                        flexShrink: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <button
-                    style={{
-                      backgroundColor: theme.primary,
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Project
-                  </button>
-                </div>
-              </div>
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Expense Tracker</h3>
-                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  React.js / Firebase / Chart.js
-                </p>
-                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A personal finance application that helps users track expenses, set budgets, and visualize spending patterns 
-                  through interactive charts. Features include expense categorization and monthly reports.
-                </p>
-              </div>
-            </motion.div>
+          {/* Project Card 3 - Data Structures and Algorithms */}
+          <ProjectCard
+            title="Learning Data Structures and Algorithms"
+            tech={["JavaScript", "C++", "Python", "React.js", "D3.js"]}
+            description="An interactive learning platform showcasing implementations of various data structures and algorithms with visual demonstrations and performance analysis."
+            longDescription="This educational project required creating clear visualizations of complex algorithms and data structures. I implemented interactive animations using D3.js to demonstrate sorting algorithms, tree traversals, and graph algorithms. The platform includes performance comparisons and time complexity analysis. One significant challenge was creating smooth animations for complex operations like AVL tree rotations and graph pathfinding algorithms, which I solved using custom animation frameworks and efficient state management."
+            images={[
+              { src: "/learning-dsa/1.png", alt: "Algorithm visualization", caption: "Interactive sorting algorithm visualization" },
+              { src: "/learning-dsa/2.png", alt: "Data structure demo", caption: "Binary tree operations demonstration" },
+              { src: "/learning-dsa/3.png", alt: "Performance analysis", caption: "Algorithm performance comparison charts" },
+              { src: "/learning-dsa/4.png", alt: "Graph algorithms", caption: "Interactive graph traversal algorithms" },
+              { src: "/learning-dsa/5.png", alt: "Search techniques", caption: "Visualization of different search techniques" },
+              { src: "/learning-dsa/6.png", alt: "Big O complexity", caption: "Big O notation and complexity analysis" },
+              { src: "/learning-dsa/7.png", alt: "Code implementation", caption: "Multiple language implementations of key algorithms" }
+            ]}
+            projectUrl="https://dsa-learning.demo.com"
+            githubUrl="https://github.com/Edgar-mwila/dsa-learning"
+            theme={{
+              card: theme.card,
+              primary: theme.primary,
+              secondary: theme.secondary,
+              text: theme.text,
+              accent: theme.primary
+            }}
+          />
 
-            {/* Project Card 3 - Data Structures and Algorithms */}
-            <motion.div
-              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              style={{
-                backgroundColor: theme.card,
-                borderRadius: "10px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <motion.div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  {["/learning-dsa/1.png", "/learning-dsa/2.png", "/learning-dsa/3.png", "/learning-dsa/4.png", "/learning-dsa/5.png", "/learning-dsa/6.png", "/learning-dsa/7.png"].map((src, index) => (
-                    <img
-                      key={index}
-                      src={src}
-                      alt={`DSA Learning ${index + 1}`}
-                      style={{
-                        flexShrink: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <button
-                    style={{
-                      backgroundColor: theme.primary,
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Project
-                  </button>
-                </div>
-              </div>
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Learning Data Structures and Algorithms</h3>
-                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  JavaScript / C++ / Python
-                </p>
-                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A collection of implemented data structures and algorithms with explanations and visualizations. 
-                  Includes sorting algorithms, search techniques, and complex data structures with practical applications.
-                </p>
-              </div>
-            </motion.div>
+          {/* Project Card 4 - Habit Hub */}
+          <ProjectCard
+            title="Habit Hub"
+            tech={["Android", "Kotlin", "Room Database", "Work Manager", "MVVM"]}
+            description="An Android application designed to help users track and maintain healthy habits with goal setting, streak tracking, and progress visualization."
+            longDescription="Developing Habit Hub presented several technical challenges, particularly in implementing reliable notification schedules and accurate streak calculations across time zones. I implemented a robust scheduling system using Android's WorkManager API for reliable background processing and notifications. The app uses Room Database with a well-normalized schema for efficient data storage and retrieval. The clean architecture approach with MVVM pattern made the codebase maintainable and testable. I also implemented a custom calendar view widget to visualize habit completion over time, which required complex custom drawing on Canvas."
+            images={[
+              { src: "/habit-hub/1.jpg", alt: "Dashboard view", caption: "Main dashboard showing habit progress and streaks" },
+              { src: "/habit-hub/2.jpg", alt: "Habit creation", caption: "Intuitive habit creation interface" },
+              { src: "/habit-hub/3.jpg", alt: "Streak tracker", caption: "Visual streak tracking calendar" },
+              { src: "/habit-hub/4.jpg", alt: "Reminder settings", caption: "Customizable reminder notification settings" },
+              { src: "/habit-hub/5.jpg", alt: "Progress charts", caption: "Weekly and monthly progress visualization" },
+              { src: "/habit-hub/6.jpg", alt: "Goal setting", caption: "Goal setting and milestone tracking" },
+              { src: "/habit-hub/7.jpg", alt: "Settings screen", caption: "App preferences and user settings" }
+            ]}
+            projectUrl="https://play.google.com/store/apps/details?id=com.edgarmwila.habithub"
+            githubUrl="https://github.com/Edgar-mwila/habit-hub"
+            theme={{
+              card: theme.card,
+              primary: theme.primary,
+              secondary: theme.secondary,
+              text: theme.text,
+              accent: theme.primary
+            }}
+          />
 
-            {/* Project Card 4 - Habit Hub */}
-            <motion.div
-              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-              style={{
-                backgroundColor: theme.card,
-                borderRadius: "10px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <motion.div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  {["/habit-hub/1.jpg", "/habit-hub/2.jpg", "/habit-hub/3.jpg", "/habit-hub/4.jpg", "/habit-hub/5.jpg", "/habit-hub/6.jpg", "/habit-hub/7.jpg"].map((src, index) => (
-                    <img
-                      key={index}
-                      src={src}
-                      alt={`Habit Hub ${index + 1}`}
-                      style={{
-                        flexShrink: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <button
-                    style={{
-                      backgroundColor: theme.primary,
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Project
-                  </button>
-                </div>
-              </div>
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Habit Hub</h3>
-                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  Android / Kotlin / Room Database
-                </p>
-                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  An Android application designed to help users track and maintain healthy habits. Features include 
-                  goal setting, streak tracking, reminders, and progress visualization to motivate consistent behavior.
-                </p>
-              </div>
-            </motion.div>
+          {/* Project Card 5 - My Rent Solutions */}
+          <ProjectCard
+            title="My Rent Solutions"
+            tech={["Next.js", "Express", "PostgreSQL", "Prisma", "AWS S3"]}
+            description="A comprehensive rental property management platform connecting landlords and tenants with property listings, application processing, and maintenance request tracking."
+            longDescription="Building this platform required implementing complex relationship management between landlords, properties, and tenants. I designed a secure payment processing system integrated with Stripe API, implemented role-based access control with different dashboards for landlords and tenants, and created an automated rental application workflow. Image handling was optimized using AWS S3 for storage and CloudFront for delivery. One of the main challenges was implementing a real-time notification system for maintenance requests and rent payment reminders, which I solved using a combination of server-sent events and scheduled email notifications."
+            images={[
+              { src: "/my-rent-solutions/1.png", alt: "Property listings", caption: "Searchable property listings with filters" },
+              { src: "/my-rent-solutions/2.png", alt: "Landlord dashboard", caption: "Comprehensive landlord management dashboard" },
+              { src: "/my-rent-solutions/3.png", alt: "Tenant portal", caption: "Tenant portal with rent payment history" },
+              { src: "/my-rent-solutions/4.png", alt: "Maintenance requests", caption: "Maintenance request tracking system" },
+              { src: "/my-rent-solutions/5.png", alt: "Application process", caption: "Streamlined rental application process" }
+            ]}
+            projectUrl="https://my-rent-solutions.com"
+            githubUrl="https://github.com/Edgar-mwila/my-rent-solutions"
+            theme={{
+              card: theme.card,
+              primary: theme.primary,
+              secondary: theme.secondary,
+              text: theme.text,
+              accent: theme.primary
+            }}
+          />
 
-            {/* Project Card 5 - My Rent Solutions */}
-            <motion.div
-              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-              style={{
-                backgroundColor: theme.card,
-                borderRadius: "10px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <motion.div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  {["/my-rent-solutions/1.png", "/my-rent-solutions/2.png"].map((src, index) => (
-                    <img
-                      key={index + 1}
-                      src={src}
-                      alt={`My Rent Solutions ${index + 1}`}
-                      style={{
-                        flexShrink: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <button
-                    style={{
-                      backgroundColor: theme.primary,
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Project
-                  </button>
-                </div>
-              </div>
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>My Rent Solutions</h3>
-                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  Next.js / Express / PostgreSQL
-                </p>
-                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A comprehensive rental property management platform connecting landlords and tenants. Features include 
-                  property listings, tenant application processing, rent payment tracking, and maintenance request management.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Project Card 6 - Image Classifier */}
-            <motion.div
-              whileHover={{ y: -10, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              viewport={{ once: true }}
-              style={{
-                backgroundColor: theme.card,
-                borderRadius: "10px",
-                overflow: "hidden",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
-                <motion.div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                  animate={{ x: ["0%", "-100%", "-200%", "0%"] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  {["/assets/image-classifier/1.jpg", "/assets/image-classifier/2.jpg", "/assets/image-classifier/3.jpg"].map((src, index) => (
-                    <img
-                      key={index + 1}
-                      src={src}
-                      alt={`Classifier ${index + 1}`}
-                      style={{
-                        flexShrink: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <button
-                    style={{
-                      backgroundColor: theme.primary,
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Project
-                  </button>
-                </div>
-              </div>
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>Image Classifier</h3>
-                <p style={{ color: theme.secondary, marginBottom: "1rem", fontSize: "0.9rem" }}>
-                  Python / TensorFlow / Keras
-                </p>
-                <p style={{ lineHeight: "1.6", marginBottom: "1rem" }}>
-                  A machine learning application that classifies images into predefined categories using 
-                  convolutional neural networks. Trained on a diverse dataset to recognize various objects and scenes 
-                  with high accuracy.
-                </p>
-              </div>
-            </motion.div>
-          </div>
+          {/* Project Card 6 - Image Classifier */}
+          <ProjectCard
+            title="Image Classifier"
+            tech={["Python", "TensorFlow", "Keras", "OpenCV", "Flask"]}
+            description="A machine learning application that classifies images into predefined categories using convolutional neural networks with high recognition accuracy."
+            longDescription="This project involved training a custom convolutional neural network architecture on a diverse dataset of over 50,000 images. I implemented data augmentation techniques to improve model generalization and transfer learning using pretrained models (ResNet50, MobileNetV2) to enhance accuracy. The web interface was built with Flask, allowing users to upload images and receive real-time classifications. One key challenge was optimizing the model for both accuracy and inference speed, which I addressed by implementing model quantization and TensorFlow Lite conversion for edge deployment. The final model achieves over 94% accuracy across 20 common object categories."
+            images={[
+              { src: "/assets/image-classifier/1.jpg", alt: "Web interface", caption: "User-friendly web interface for image upload" },
+              { src: "/assets/image-classifier/2.jpg", alt: "Classification results", caption: "Real-time classification results with confidence scores" },
+              { src: "/assets/image-classifier/3.jpg", alt: "Model architecture", caption: "Visualization of the neural network architecture" },
+              { src: "/assets/image-classifier/4.jpg", alt: "Training metrics", caption: "Training accuracy and loss visualization" },
+              { src: "/assets/image-classifier/5.jpg", alt: "Confusion matrix", caption: "Classification performance analysis" }
+            ]}
+            projectUrl="https://image-classifier-demo.herokuapp.com"
+            githubUrl="https://github.com/Edgar-mwila/image-classifier"
+            theme={{
+              card: theme.card,
+              primary: theme.primary,
+              secondary: theme.secondary,
+              text: theme.text,
+              accent: theme.primary
+            }}
+          />
+        </div>
         </motion.section>
 
         {/* Skills Section */}
@@ -1976,104 +1510,84 @@ const handlePrintCV = () => {
             <div>
               <h3 style={{ fontSize: "1.5rem", marginBottom: "1.5rem", color: theme.secondary }}>Send Me a Message</h3>
 
-              <form style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                  <div>
-                    <label htmlFor="name" style={{ display: "block", marginBottom: "0.5rem" }}>
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      placeholder="Your Name"
-                      style={{
-                        width: "100%",
-                        padding: "0.75rem",
-                        borderRadius: "5px",
-                        border: `1px solid ${theme.secondary}`,
-                        backgroundColor: theme.card,
-                        color: theme.text,
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" style={{ display: "block", marginBottom: "0.5rem" }}>
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="Your Email"
-                      style={{
-                        width: "100%",
-                        padding: "0.75rem",
-                        borderRadius: "5px",
-                        border: `1px solid ${theme.secondary}`,
-                        backgroundColor: theme.card,
-                        color: theme.text,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="subject" style={{ display: "block", marginBottom: "0.5rem" }}>
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    placeholder="Subject"
-                    style={{
-                      width: "100%",
-                      padding: "0.75rem",
-                      borderRadius: "5px",
-                      border: `1px solid ${theme.secondary}`,
-                      backgroundColor: theme.card,
-                      color: theme.text,
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" style={{ display: "block", marginBottom: "0.5rem" }}>
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    placeholder="Your Message"
-                    style={{
-                      width: "100%",
-                      padding: "0.75rem",
-                      borderRadius: "5px",
-                      border: `1px solid ${theme.secondary}`,
-                      backgroundColor: theme.card,
-                      color: theme.text,
-                      resize: "vertical",
-                    }}
-                  />
-                </div>
-
-                <motion.button
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                {/* WhatsApp Button */}
+                <motion.a
+                  href="https://wa.me/260779846020"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  type="submit"
                   style={{
-                    backgroundColor: theme.primary,
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    padding: "0.75rem 1.5rem",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                    alignSelf: "flex-start",
-                    marginTop: "1rem",
+                  backgroundColor: "#25D366", // WhatsApp green
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  padding: "1rem 1.5rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.75rem",
                   }}
                 >
-                  Send Message
-                </motion.button>
-              </form>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"></svg>
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                  Chat on WhatsApp
+                </motion.a>
+
+                {/* LinkedIn Button */}
+                <motion.a
+                  href="https://www.linkedin.com/in/edgar-mwila-linkdin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                  backgroundColor: "#0A66C2", // LinkedIn blue
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  padding: "1rem 1.5rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.75rem",
+                  }}
+                >
+                  <Linkedin size={24} />
+                  Connect on LinkedIn
+                </motion.a>
+
+                {/* Email Button */}
+                <motion.a
+                  href="mailto:edgarmwila84@gmail.com?subject=Let's Connect!"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                  backgroundColor: theme.primary,
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  padding: "1rem 1.5rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.75rem",
+                  }}
+                >
+                  <Mail size={24} />
+                  Send Email
+                </motion.a>
+                </div>
             </div>
           </div>
         </motion.section>
@@ -2126,3 +1640,397 @@ const handlePrintCV = () => {
     </div>
   )
 }
+
+const useCarousel = (images: string[], interval = 5000) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Function to clear any existing timers
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  // Function to start the timer
+  const startTimer = useCallback(() => {
+    clearTimer();
+    if (!isPaused) {
+      timerRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, interval);
+    }
+  }, [clearTimer, isPaused, interval, images.length]);
+
+  // Initialize or restart the timer when dependencies change
+  useEffect(() => {
+    startTimer();
+    return clearTimer; // Cleanup on unmount or dependency change
+  }, [images.length, interval, isPaused, startTimer, clearTimer]);
+
+  // Navigation functions
+  const goToNext = () => {
+    clearTimer();
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    startTimer();
+  };
+
+  const goToPrevious = () => {
+    clearTimer();
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    startTimer();
+  };
+
+  const goToSlide = (index: number) => {
+    clearTimer();
+    setCurrentIndex(index);
+    startTimer();
+  };
+
+  const pauseCarousel = () => {
+    setIsPaused(true);
+    clearTimer();
+  };
+
+  const resumeCarousel = () => {
+    setIsPaused(false);
+    startTimer();
+  };
+
+  return {
+    currentIndex,
+    goToNext,
+    goToPrevious,
+    goToSlide,
+    pauseCarousel,
+    resumeCarousel,
+    isPaused
+  };
+};
+
+// Project Card Component
+interface ProjectCardProps {
+  title: string;
+  tech: string[];
+  description: string;
+  longDescription?: string;
+  images: Array<{
+    src: string;
+    alt?: string;
+    caption?: string;
+  }>;
+  projectUrl?: string;
+  githubUrl?: string;
+  theme: {
+    card: string;
+    primary: string;
+    secondary: string;
+    text: string;
+    accent: string;
+  };
+}
+
+const ProjectCard = ({
+  title,
+  tech,
+  description,
+  longDescription,
+  images,
+  projectUrl,
+  githubUrl,
+  theme
+}: ProjectCardProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const {
+    currentIndex,
+    goToNext,
+    goToPrevious,
+    goToSlide,
+    pauseCarousel,
+    resumeCarousel,
+    isPaused
+  } = useCarousel(images.map(img => img.src), 5000);
+
+  // Progress bar state
+  const [progress, setProgress] = useState(0);
+  const progressInterval = useRef<NodeJS.Timeout | null>(null);
+
+  // Reset and start progress when currentIndex changes or when carousel state changes
+  useEffect(() => {
+    if (progressInterval.current) {
+      clearInterval(progressInterval.current);
+    }
+
+    setProgress(0);
+
+    if (!isPaused && images.length > 1) {
+      const startTime = Date.now();
+      progressInterval.current = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const newProgress = Math.min((elapsed / 5000) * 100, 100);
+        setProgress(newProgress);
+      }, 16); // ~60fps
+    }
+
+    return () => {
+      if (progressInterval.current) {
+        clearInterval(progressInterval.current);
+      }
+    };
+  }, [currentIndex, isPaused, images.length]);
+
+  // Handle hover events
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    pauseCarousel();
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    resumeCarousel();
+  };
+
+  return (
+    <motion.div
+      whileHover={{ y: -5, boxShadow: "0 10px 25px rgba(0,0,0,0.15)" }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className={`rounded-lg overflow-hidden shadow-md max-w-md mx-auto w-full ${
+        isExpanded ? "md:max-w-2xl" : ""
+      }`}
+      style={{ backgroundColor: theme.card }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Image Carousel */}
+      <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden bg-gray-100">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="relative w-full h-full"
+              style={{
+              minHeight: '200px', // Minimum height for mobile
+              height: '100%',
+              maxHeight: '400px' // Maximum height for desktop
+              }}
+            >
+              <img
+              src={images[currentIndex].src}
+              alt={images[currentIndex].alt || `${title} screenshot ${currentIndex + 1}`}
+              className="w-full h-full object-contain md:object-cover"
+              style={{
+                width: '100%',
+                maxWidth: '800px', // Maximum width for desktop
+                margin: '0 auto',
+                aspectRatio: '16/9' // Maintain consistent aspect ratio
+              }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Caption */}
+        {images[currentIndex].caption && (
+          <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
+            {images[currentIndex].caption}
+          </div>
+        )}
+
+        {/* Controls - only show if more than one image */}
+        {images.length > 1 && (
+          <>
+            {/* Navigation Arrows */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                goToPrevious();
+              }}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-opacity z-10"
+              style={{ opacity: isHovering ? 0.8 : 0 }}
+              aria-label="Previous image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+              </svg>
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                goToNext();
+              }}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-opacity z-10"
+              style={{ opacity: isHovering ? 0.8 : 0 }}
+              aria-label="Next image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+
+            {/* Play/Pause Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if(isPaused) resumeCarousel() 
+                  else pauseCarousel();
+              }}
+              className="absolute bottom-10 right-2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-opacity z-10"
+              style={{ opacity: isHovering ? 0.8 : 0 }}
+              aria-label={isPaused ? "Play slideshow" : "Pause slideshow"}
+            >
+              {isPaused ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
+                </svg>
+              )}
+            </button>
+
+            {/* Indicators / Thumbnails */}
+            <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 px-2">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    currentIndex === index ? 'bg-white' : 'bg-white/40 hover:bg-white/70'
+                  }`}
+                  style={{ 
+                    width: currentIndex === index ? '20px' : '8px',
+                    transition: 'all 0.3s ease'
+                  }}
+                  aria-label={`Go to image ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Progress Bar */}
+            {!isPaused && (
+              <div className="absolute bottom-0 left-0 right-0 h-1">
+                <div
+                  className="h-full bg-white/70"
+                  style={{ width: `${progress}%`, transition: 'width 0.1s linear' }}
+                ></div>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Project Link Overlay */}
+        <div 
+          className="absolute inset-0 bg-black/40 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity"
+          style={{ opacity: isHovering ? 0.6 : 0 }}
+        >
+          <div className="flex gap-3">
+            {projectUrl && (
+              <a 
+                href={projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded text-white font-medium transition-transform hover:scale-105"
+                style={{ backgroundColor: theme.primary }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                View Project
+              </a>
+            )}
+            {githubUrl && (
+              <a 
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded text-white font-medium bg-gray-800 transition-transform hover:scale-105"
+                onClick={(e) => e.stopPropagation()}
+              >
+                View Code
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-5">
+        <h3 className="text-lg md:text-xl font-semibold mb-1" style={{ color: theme.text }}>
+          {title}
+        </h3>
+        
+        {/* Tech stack tags */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '1rem', justifyContent: 'center' }}>
+          {tech.map((item, index) => (
+            <span 
+              key={index}
+              style={{ 
+              fontSize: '0.75rem',
+              padding: '0.25rem 0.5rem',
+              margin: '0.5rem',
+              borderRadius: '9999px',
+              backgroundColor: theme.primary,
+              color: theme.text,
+              display: 'inline-block'
+              }}
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+        
+        {/* Description */}
+        <p className="text-sm leading-relaxed mb-3" style={{ color: theme.text }}>
+          {description}
+        </p>
+        
+        {/* Expandable long description */}
+        {longDescription && (
+          <div>
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-sm mt-3 border-t pt-3"
+                  style={{ color: theme.text, borderColor: theme.secondary }}
+                >
+                  <p>{longDescription}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-xs mt-2 font-medium flex items-center"
+              style={{ color: theme.accent }}
+            >
+              {isExpanded ? "Show less" : "Read more"}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                className={`ml-1 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+              >
+                <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
